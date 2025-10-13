@@ -1,17 +1,17 @@
 {
-  "name": "buildatscale-tools",
+  "name": "buildatscale",
   "owner": {
     "name": "BuildAtScale",
     "email": "hello@buildatscale.tv"
   },
   "plugins": [
     {
-      "name": "channel-tools",
+      "name": "core",
       "source": "./",
       "description": "Various tools used for Claude Code",
       "version": "0.0.0",
       "author": {
-        "name": "BuildAtScale"
+        "name": "Ronnie Miller"
       },
       "commands": [
         "./commands/pr.md",
