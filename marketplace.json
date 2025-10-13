@@ -1,0 +1,47 @@
+{
+  "name": "buildatscale-tools",
+  "owner": {
+    "name": "BuildAtScale",
+    "email": "hello@buildatscale.tv"
+  },
+  "plugins": [
+    {
+      "name": "channel-tools",
+      "source": "./plugins/chaneel-tools",
+      "description": "Various tools used for Claude Code",
+      "version": "0.0.0",
+      "author": {
+        "name": "BuildAtScale"
+      },
+      "commands": [
+        "./commands/pr.md",
+        "./commands/commit.md",
+        "./commands/ceo.md"
+      ],
+      "hooks": {
+        "PreToolUse": [
+          {
+            "matcher": "Bash",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "${CLAUDE_PLUGIN_ROOT}/hooks/block-force-git.sh"
+              }
+            ]
+          }
+        ],
+        "PostToolUse": [
+          {
+            "matcher": "Write|Edit|MultiEdit",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "${CLAUDE_PLUGIN_ROOT}/hooks/file-write-cleanup.sh"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
