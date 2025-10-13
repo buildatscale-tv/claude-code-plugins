@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "channel-tools",
-      "source": ".",
+      "source": "./",
       "description": "Various tools used for Claude Code",
       "version": "0.0.0",
       "author": {
