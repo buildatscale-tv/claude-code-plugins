@@ -1,12 +1,12 @@
 {
-  "name": "buildatscale",
+  "name": "buildatscale-claude-code",
   "owner": {
     "name": "BuildAtScale",
     "email": "hello@buildatscale.tv"
   },
   "plugins": [
     {
-      "name": "core",
+      "name": "buildatscale",
       "source": "./",
       "description": "Various tools used for Claude Code",
       "version": "0.0.0",
