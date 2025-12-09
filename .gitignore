@@ -1,0 +1,12 @@
+# Claude Code local settings
+.claude/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# OS
+.DS_Store
