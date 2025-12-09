@@ -18,6 +18,9 @@
         "./commands/commit.md",
         "./commands/ceo.md"
       ],
+      "skills": [
+        "./skills/nano-banana-pro"
+      ],
       "hooks": {
         "PreToolUse": [
           {
