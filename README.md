@@ -1,6 +1,6 @@
 # BuildAtScale Claude Code Plugins
 
-Claude Code plugins from BuildAtScale - commands, hooks, and skills for enhanced productivity.
+Claude Code plugins from BuildAtScale - slash commands, hooks, and skills for enhanced productivity.
 
 ## Quick Start
 
@@ -12,7 +12,7 @@ Claude Code plugins from BuildAtScale - commands, hooks, and skills for enhanced
 
 ### Install Plugins
 
-**Core features (commands and hooks):**
+**Core features (slash commands and hooks):**
 ```bash
 /plugin install buildatscale@buildatscale-claude-code
 ```
@@ -26,9 +26,9 @@ Claude Code plugins from BuildAtScale - commands, hooks, and skills for enhanced
 
 ### buildatscale (Core Tools)
 
-Core commands and hooks for git workflow automation.
+Core slash commands and hooks for git workflow automation.
 
-**Commands:**
+**Slash Commands:**
 - `/buildatscale:commit` - Create commit message(s) for staged/unstaged changes, breaking into logical units
 - `/buildatscale:pr` - Create pull request with GitHub CLI, auto-branching from main/master
 - `/buildatscale:ceo` - Create executive summary of work in progress, recent work, or recently deployed changes
@@ -39,11 +39,13 @@ Core commands and hooks for git workflow automation.
 
 ### nano-banana-pro (Skill)
 
-Generate images using Google's Gemini 2.5 Flash for frontend designs.
+Generate images using Google's Gemini 2.5 Flash (Nano Banana Pro). See the [demo video](https://youtu.be/MNqUedk79IY).
 
 **Triggers:** `gemini`, `image-generation`, `ai`, `frontend`, `design`, `visual-assets`
 
-**Prerequisites:** Set the `GEMINI_API_KEY` environment variable with your Google AI API key.
+**Prerequisites:**
+- [uv](https://docs.astral.sh/uv/) - Python package manager (required to run the image generation script). See the [uv installation walkthrough](https://youtu.be/DRdd4V1G4-k?t=80)
+- `GEMINI_API_KEY` environment variable with your Google AI API key
 
 **Usage:**
 ```bash
