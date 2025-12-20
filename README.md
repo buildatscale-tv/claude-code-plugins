@@ -12,12 +12,12 @@ Claude Code plugins from BuildAtScale - commands, hooks, and skills for enhanced
 
 ### Install Plugins
 
-**Install everything (commands, hooks, and skills):**
+**Core features (commands and hooks):**
 ```bash
 /plugin install buildatscale@buildatscale-claude-code
 ```
 
-**Install individual skills:**
+**Image generation skill:**
 ```bash
 /plugin install nano-banana-pro@buildatscale-claude-code
 ```
@@ -47,7 +47,7 @@ Generate images using Google's Gemini 2.5 Flash for frontend designs.
 
 **Usage:**
 ```bash
-uv run "${SKILL_DIR}/scripts/generate_image.py" \
+uv run "${SKILL_DIR}/scripts/image.py" \
   --prompt "Your image description" \
   --output "/path/to/output.png" \
   --aspect landscape  # optional: square, landscape, portrait
@@ -59,20 +59,21 @@ uv run "${SKILL_DIR}/scripts/generate_image.py" \
 .
 ├── .claude-plugin/
 │   └── marketplace.json        # Plugin registry
-├── plugins/
-│   └── buildatscale/
-│       ├── commands/
-│       │   ├── ceo.md          # /buildatscale:ceo command
-│       │   ├── commit.md       # /buildatscale:commit command
-│       │   └── pr.md           # /buildatscale:pr command
-│       └── hooks/
-│           ├── block-force-git.sh
-│           └── file-write-cleanup.sh
-└── skills/
+└── plugins/
+    ├── buildatscale/
+    │   ├── commands/
+    │   │   ├── ceo.md          # /buildatscale:ceo command
+    │   │   ├── commit.md       # /buildatscale:commit command
+    │   │   └── pr.md           # /buildatscale:pr command
+    │   └── hooks/
+    │       ├── block-force-git.sh
+    │       └── file-write-cleanup.sh
     └── nano-banana-pro/
-        ├── SKILL.md            # Skill documentation
-        └── scripts/
-            └── generate_image.py
+        └── skills/
+            └── generate/
+                ├── SKILL.md    # Skill documentation
+                └── scripts/
+                    └── image.py
 ```
 
 ## License
