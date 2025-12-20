@@ -1,6 +1,6 @@
 ---
-name: nano-banana-pro
-description: Generate images using Google's Gemini 2.5 Flash (Nano Banana Pro) for frontend designs. Use this skill when the user needs AI-generated images for web designs, landing pages, dashboards, React components, or any frontend project. Pairs with frontend-design skill to create complete visual experiences with custom imagery. Triggers on requests for generated images, AI artwork, custom graphics, hero images, illustrations, or visual assets for web projects.
+name: generate
+description: Use this skill when the user asks to "generate an image", "generate images", "create an image", "make an image", or requests multiple images like "generate 5 images". Generates images using Google's Gemini 2.5 Flash for any purpose - frontend designs, web projects, illustrations, graphics, hero images, icons, backgrounds, or standalone artwork. Invoke this skill for ANY image generation request.
 ---
 
 # Nano Banana Pro - Gemini Image Generation
@@ -15,10 +15,10 @@ Set the `GEMINI_API_KEY` environment variable with your Google AI API key.
 
 ### Step 1: Generate the Image
 
-Use `scripts/generate_image.py` with uv. The script is located in the skill directory at `skills/nano-banana-pro/scripts/generate_image.py`:
+Use `scripts/image.py` with uv. The script is located in the skill directory at `skills/generate/scripts/image.py`:
 
 ```bash
-uv run "${SKILL_DIR}/scripts/generate_image.py" \
+uv run "${SKILL_DIR}/scripts/image.py" \
   --prompt "Your image description" \
   --output "/path/to/output.png"
 ```

@@ -58,17 +58,19 @@ uv run "${SKILL_DIR}/scripts/generate_image.py" \
 ```
 .
 ├── .claude-plugin/
-│   └── marketplace.json    # Plugin registry
-├── commands/
-│   ├── ceo.md              # /buildatscale:ceo command
-│   ├── commit.md           # /buildatscale:commit command
-│   └── pr.md               # /buildatscale:pr command
-├── hooks/
-│   ├── block-force-git.sh  # Git safety hook
-│   └── file-write-cleanup.sh
+│   └── marketplace.json        # Plugin registry
+├── plugins/
+│   └── buildatscale/
+│       ├── commands/
+│       │   ├── ceo.md          # /buildatscale:ceo command
+│       │   ├── commit.md       # /buildatscale:commit command
+│       │   └── pr.md           # /buildatscale:pr command
+│       └── hooks/
+│           ├── block-force-git.sh
+│           └── file-write-cleanup.sh
 └── skills/
     └── nano-banana-pro/
-        ├── SKILL.md        # Skill documentation
+        ├── SKILL.md            # Skill documentation
         └── scripts/
             └── generate_image.py
 ```

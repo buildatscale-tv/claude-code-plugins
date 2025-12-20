@@ -12,16 +12,8 @@
   "plugins": [
     {
       "name": "buildatscale",
-      "source": "./",
       "description": "Core BuildAtScale tools: commit and PR commands, git safety hooks, and file cleanup automation",
-      "version": "1.0.0",
-      "category": "tooling",
-      "keywords": ["git", "commit", "pr", "hooks", "automation"],
-      "author": {
-        "name": "Ronnie Miller"
-      },
-      "license": "MIT",
-      "repository": "https://github.com/buildatscale-tv/claude-code-plugins",
+      "source": "./plugins/buildatscale",
       "commands": [
         "./commands/pr.md",
         "./commands/commit.md",
@@ -54,16 +46,11 @@
     },
     {
       "name": "nano-banana-pro",
-      "source": "./skills/nano-banana-pro",
-      "description": "Generate images using Google's Gemini 2.5 Flash for frontend designs, landing pages, and web projects",
-      "version": "1.0.0",
-      "category": "ai",
-      "keywords": ["gemini", "image-generation", "ai", "frontend", "design", "visual-assets"],
-      "author": {
-        "name": "Ronnie Miller"
-      },
-      "license": "MIT",
-      "repository": "https://github.com/buildatscale-tv/claude-code-plugins"
+      "description": "AI image generation using Google's Gemini 2.5 Flash",
+      "source": "./plugins/nano-banana-pro",
+      "skills": [
+        "./skills/generate"
+      ]
     }
   ]
 }
