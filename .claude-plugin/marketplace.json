@@ -46,7 +46,7 @@
     },
     {
       "name": "nano-banana-pro",
-      "description": "AI image generation using Google's Gemini 2.5 Flash",
+      "description": "Nano Banana Pro image generation. Use when user asks to generate an image, create an image, make an image, or mentions nano banana. Uses Google Gemini 2.5 Flash.",
       "source": "./plugins/nano-banana-pro",
       "skills": [
         "./skills/generate"
