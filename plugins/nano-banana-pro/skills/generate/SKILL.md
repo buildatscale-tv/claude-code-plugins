@@ -29,6 +29,20 @@ Options:
 - `--prompt` (required): Detailed description of the image to generate
 - `--output` (required): Output file path (PNG format)
 - `--aspect` (optional): Aspect ratio - "square", "landscape", "portrait" (default: square)
+- `--reference` (optional): Path to a reference image for style, composition, or content guidance
+
+### Using a Reference Image
+
+To generate an image based on an existing reference:
+
+```bash
+uv run "${SKILL_DIR}/scripts/image.py" \
+  --prompt "Create a similar abstract pattern with warmer colors" \
+  --output "/path/to/output.png" \
+  --reference "/path/to/reference.png"
+```
+
+The reference image helps Gemini understand the desired style, composition, or visual elements you want in the generated image.
 
 ### Step 2: Integrate with Frontend Design
 
