@@ -5,11 +5,18 @@ description: Nano Banana Pro (nano-banana-pro) image generation skill. Use this 
 
 # Nano Banana Pro - Gemini Image Generation
 
-Generate custom images using Google's Gemini 2.5 Flash model for integration into frontend designs.
+Generate custom images using Google's Gemini models for integration into frontend designs.
 
 ## Prerequisites
 
 Set the `GEMINI_API_KEY` environment variable with your Google AI API key.
+
+## Available Models
+
+| Model | ID | Best For | Max Resolution |
+|-------|-----|----------|----------------|
+| **Flash** | `gemini-2.5-flash-image` | Speed, high-volume tasks | 1024px |
+| **Pro** | `gemini-3-pro-image-preview` | Professional quality, complex scenes | Up to 4K |
 
 ## Image Generation Workflow
 
@@ -30,6 +37,27 @@ Options:
 - `--output` (required): Output file path (PNG format)
 - `--aspect` (optional): Aspect ratio - "square", "landscape", "portrait" (default: square)
 - `--reference` (optional): Path to a reference image for style, composition, or content guidance
+- `--model` (optional): Model to use - "flash" (fast) or "pro" (high-quality) (default: flash)
+- `--size` (optional): Image resolution for pro model - "1K", "2K", "4K" (default: 1K, ignored for flash)
+
+### Using Different Models
+
+**Flash model (default)** - Fast generation, good for iterations:
+```bash
+uv run "${SKILL_DIR}/scripts/image.py" \
+  --prompt "A minimalist logo design" \
+  --output "/path/to/logo.png" \
+  --model flash
+```
+
+**Pro model** - Higher quality for final assets:
+```bash
+uv run "${SKILL_DIR}/scripts/image.py" \
+  --prompt "A detailed hero illustration for a tech landing page" \
+  --output "/path/to/hero.png" \
+  --model pro \
+  --size 2K
+```
 
 ### Using a Reference Image
 
