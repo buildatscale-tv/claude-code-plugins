@@ -39,9 +39,13 @@ Core slash commands and hooks for git workflow automation.
 
 ### nano-banana-pro (Skill)
 
-Generate images using Google's Gemini 2.5 Flash (Nano Banana Pro). See the [demo video](https://youtu.be/MNqUedk79IY).
+Generate images using Google's Gemini models (Nano Banana Pro). See the [demo video](https://youtu.be/MNqUedk79IY).
 
-**Triggers:** `gemini`, `image-generation`, `ai`, `frontend`, `design`, `visual-assets`
+**Available Models:**
+| Model | Best For | Max Resolution |
+|-------|----------|----------------|
+| **Flash** (default) | Speed, high-volume tasks | 1024px |
+| **Pro** | Professional quality, complex scenes | Up to 4K |
 
 **Prerequisites:**
 - [uv](https://docs.astral.sh/uv/) - Python package manager (required to run the image generation script). See the [uv installation walkthrough](https://youtu.be/DRdd4V1G4-k?t=80)
@@ -51,9 +55,16 @@ Generate images using Google's Gemini 2.5 Flash (Nano Banana Pro). See the [demo
 ```bash
 uv run "${SKILL_DIR}/scripts/image.py" \
   --prompt "Your image description" \
-  --output "/path/to/output.png" \
-  --aspect landscape  # optional: square, landscape, portrait
+  --output "/path/to/output.png"
 ```
+
+**Options:**
+- `--prompt` (required): Image description
+- `--output` (required): Output file path (PNG)
+- `--aspect`: Aspect ratio - `square` (default), `landscape`, `portrait`
+- `--reference`: Path to a reference image for style guidance
+- `--model`: `flash` (default, fast) or `pro` (high-quality)
+- `--size`: Resolution for pro model - `1K` (default), `2K`, `4K`
 
 ## Repository Structure
 
