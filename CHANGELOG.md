@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.2.0 - 2026-01-19
+
+### BuildAtScale Core
+
+- Added `statusline.sh` - Enhanced status line hook with context runway gauge
+  - Shows remaining context percentage instead of used (runway gauge mode)
+  - Color-coded warnings: green (>25%) → yellow (10-25%) → red (<10%)
+  - Full bar turns red at critical level (<10% remaining)
+  - Git branch display with relative path when in subdirectories
+  - Configurable cost display for API users
+  - Uses pre-calculated `used_percentage` from Claude Code for accuracy
+
 ## 1.1.0 - 2026-01-14
 
 ### Nano Banana Pro
