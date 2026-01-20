@@ -49,9 +49,15 @@ if [ "$SHOW_COST" = true ]; then
     COST_SEGMENT_PLAIN=" | \$${COST}"
 fi
 # Context usage (pre-calculated by Claude Code)
-USED_PCT=$(printf "%.0f" "$(echo "$input" | jq -r '.context_window.used_percentage')")
-FREE_PCT=$((100 - USED_PCT))
-[ $FREE_PCT -lt 0 ] && FREE_PCT=0
+USED_PCT_RAW=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+if [ -z "$USED_PCT_RAW" ] || [ "$USED_PCT_RAW" = "null" ]; then
+    USED_PCT="--"
+    FREE_PCT="--"
+else
+    USED_PCT=$(printf "%.0f" "$USED_PCT_RAW")
+    FREE_PCT=$((100 - USED_PCT))
+    [ $FREE_PCT -lt 0 ] && FREE_PCT=0
+fi
 
 # Build context display
 BAR_WIDTH=20
@@ -66,45 +72,53 @@ else
     DISPLAY_PCT=$USED_PCT
 fi
 
-# Determine warning level (based on free %, regardless of display mode)
-if [ $FREE_PCT -gt 25 ]; then
-    WARN_LEVEL="ok"
-elif [ $FREE_PCT -gt 10 ]; then
-    WARN_LEVEL="warning"
+# Handle null/unavailable context data
+if [ "$FREE_PCT" = "--" ]; then
+    WARN_LEVEL="unknown"
+    BAR=""
+    BAR_PLAIN=""
+    PCT_COLOR="$GRAY"
 else
-    WARN_LEVEL="critical"
-fi
-
-# Build bar or set text color based on detail level
-if [ "$CONTEXT_DETAIL" = "full" ]; then
-    FILLED=$((DISPLAY_PCT * BAR_WIDTH / 100))
-    [ "$DISPLAY_PCT" -gt 0 ] && [ "$FILLED" -eq 0 ] && FILLED=1
-    [ $FILLED -gt $BAR_WIDTH ] && FILLED=$BAR_WIDTH
-    [ $FILLED -lt 0 ] && FILLED=0
-    EMPTY=$((BAR_WIDTH - FILLED))
-
-    if [ "$CONTEXT_DISPLAY" = "free" ]; then
-        # Runway gauge with warning colors
-        case $WARN_LEVEL in
-            ok) BAR_COLOR="$CTX_OK" ;;
-            warning) BAR_COLOR="$CTX_WARNING" ;;
-            critical) BAR_COLOR="$CTX_CRITICAL" ;;
-        esac
-        [ "$WARN_LEVEL" = "critical" ] && EMPTY_COLOR="$CTX_CRITICAL" || EMPTY_COLOR="$GRAY"
+    # Determine warning level (based on free %, regardless of display mode)
+    if [ $FREE_PCT -gt 25 ]; then
+        WARN_LEVEL="ok"
+    elif [ $FREE_PCT -gt 10 ]; then
+        WARN_LEVEL="warning"
     else
-        # Classic mode - gray bar
-        BAR_COLOR="$GRAY"
-        EMPTY_COLOR="$GRAY"
+        WARN_LEVEL="critical"
     fi
-    BAR="${BAR_COLOR}$(printf '%*s' "$FILLED" '' | tr ' ' '█')${EMPTY_COLOR}$(printf '%*s' "$EMPTY" '' | tr ' ' '░')${RESET} "
-    BAR_PLAIN="$(printf '%*s' "$FILLED" '' | tr ' ' '█')$(printf '%*s' "$EMPTY" '' | tr ' ' '░') "
-else
-    # Minimal: no bar, colored percentage text (no color when OK)
-    case $WARN_LEVEL in
-        ok) PCT_COLOR="$GRAY" ;;
-        warning) PCT_COLOR="$CTX_WARNING" ;;
-        critical) PCT_COLOR="$CTX_CRITICAL" ;;
-    esac
+
+    # Build bar or set text color based on detail level
+    if [ "$CONTEXT_DETAIL" = "full" ]; then
+        FILLED=$((DISPLAY_PCT * BAR_WIDTH / 100))
+        [ "$DISPLAY_PCT" -gt 0 ] && [ "$FILLED" -eq 0 ] && FILLED=1
+        [ $FILLED -gt $BAR_WIDTH ] && FILLED=$BAR_WIDTH
+        [ $FILLED -lt 0 ] && FILLED=0
+        EMPTY=$((BAR_WIDTH - FILLED))
+
+        if [ "$CONTEXT_DISPLAY" = "free" ]; then
+            # Runway gauge with warning colors
+            case $WARN_LEVEL in
+                ok) BAR_COLOR="$CTX_OK" ;;
+                warning) BAR_COLOR="$CTX_WARNING" ;;
+                critical) BAR_COLOR="$CTX_CRITICAL" ;;
+            esac
+            [ "$WARN_LEVEL" = "critical" ] && EMPTY_COLOR="$CTX_CRITICAL" || EMPTY_COLOR="$GRAY"
+        else
+            # Classic mode - gray bar
+            BAR_COLOR="$GRAY"
+            EMPTY_COLOR="$GRAY"
+        fi
+        BAR="${BAR_COLOR}$(printf '%*s' "$FILLED" '' | tr ' ' '█')${EMPTY_COLOR}$(printf '%*s' "$EMPTY" '' | tr ' ' '░')${RESET} "
+        BAR_PLAIN="$(printf '%*s' "$FILLED" '' | tr ' ' '█')$(printf '%*s' "$EMPTY" '' | tr ' ' '░') "
+    else
+        # Minimal: no bar, colored percentage text (no color when OK)
+        case $WARN_LEVEL in
+            ok) PCT_COLOR="$GRAY" ;;
+            warning) PCT_COLOR="$CTX_WARNING" ;;
+            critical) PCT_COLOR="$CTX_CRITICAL" ;;
+        esac
+    fi
 fi
 
 # Git branch
