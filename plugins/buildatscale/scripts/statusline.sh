@@ -96,19 +96,13 @@ else
         [ $FILLED -lt 0 ] && FILLED=0
         EMPTY=$((BAR_WIDTH - FILLED))
 
-        if [ "$CONTEXT_DISPLAY" = "free" ]; then
-            # Runway gauge with warning colors
-            case $WARN_LEVEL in
-                ok) BAR_COLOR="$CTX_OK" ;;
-                warning) BAR_COLOR="$CTX_WARNING" ;;
-                critical) BAR_COLOR="$CTX_CRITICAL" ;;
-            esac
-            [ "$WARN_LEVEL" = "critical" ] && EMPTY_COLOR="$CTX_CRITICAL" || EMPTY_COLOR="$GRAY"
-        else
-            # Classic mode - gray bar
-            BAR_COLOR="$GRAY"
-            EMPTY_COLOR="$GRAY"
-        fi
+        # Warning colors apply to both modes (based on free %)
+        case $WARN_LEVEL in
+            ok) BAR_COLOR="$CTX_OK" ;;
+            warning) BAR_COLOR="$CTX_WARNING" ;;
+            critical) BAR_COLOR="$CTX_CRITICAL" ;;
+        esac
+        [ "$WARN_LEVEL" = "critical" ] && EMPTY_COLOR="$CTX_CRITICAL" || EMPTY_COLOR="$GRAY"
         BAR="${BAR_COLOR}$(printf '%*s' "$FILLED" '' | tr ' ' '█')${EMPTY_COLOR}$(printf '%*s' "$EMPTY" '' | tr ' ' '░')${RESET} "
         BAR_PLAIN="$(printf '%*s' "$FILLED" '' | tr ' ' '█')$(printf '%*s' "$EMPTY" '' | tr ' ' '░') "
     else
