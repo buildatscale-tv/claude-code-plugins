@@ -36,6 +36,40 @@ Core slash commands and hooks for git workflow automation.
 **Hooks:**
 - `block-force-git.sh` - Prevents dangerous git operations like force push
 - `file-write-cleanup.sh` - Cleans up files after write/edit operations
+- `statusline.sh` - Enhanced status line with context runway gauge (see below)
+
+#### Statusline Setup
+
+The statusline hook provides an enhanced status display with:
+- **Context runway gauge** - Shows remaining context (not used), so you know how much runway you have left
+- **Color-coded warnings** - Green (OK) → Yellow (<25% remaining) → Red (<10% remaining, compaction imminent)
+- **Git branch display** - Current branch in green
+- **Relative path display** - Shows `./project/subdir` when in subdirectories
+- **Configurable cost display** - Toggle on/off for API users
+
+**Example output:**
+```
+[./website/src][main]              +156/-23 | ████████████░░░░░░░░ 58% | Opus
+```
+
+**To enable**, add to your `~/.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "Status": [
+      {
+        "type": "command",
+        "command": "~/.claude/plugins/marketplaces/buildatscale-claude-code/plugins/buildatscale/hooks/statusline.sh"
+      }
+    ]
+  }
+}
+```
+
+**Configuration** (edit the script to customize):
+- `SHOW_COST=false` - Set to `true` to display session cost (useful for API users)
+- `CONTEXT_DISPLAY="remaining"` - Set to `"used"` for classic fill-up bar instead of runway gauge
 
 ### nano-banana-pro (Skill)
 
@@ -69,7 +103,8 @@ uv run "${SKILL_DIR}/scripts/image.py" \
     │   │   └── pr.md           # /buildatscale:pr command
     │   └── hooks/
     │       ├── block-force-git.sh
-    │       └── file-write-cleanup.sh
+    │       ├── file-write-cleanup.sh
+    │       └── statusline.sh
     └── nano-banana-pro/
         └── skills/
             └── generate/
