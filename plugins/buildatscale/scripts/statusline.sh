@@ -10,13 +10,9 @@
 #
 # To enable, add to your ~/.claude/settings.json:
 # {
-#   "hooks": {
-#     "Status": [
-#       {
-#         "type": "command",
-#         "command": "/path/to/statusline.sh"
-#       }
-#     ]
+#   "statusLine": {
+#     "type": "command",
+#     "command": "bash /path/to/statusline.sh"
 #   }
 # }
 
