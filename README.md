@@ -36,6 +36,8 @@ Core slash commands and hooks for git workflow automation.
 **Hooks:**
 - `block-force-git.sh` - Prevents dangerous git operations like force push
 - `file-write-cleanup.sh` - Cleans up files after write/edit operations
+
+**Scripts:**
 - `statusline.sh` - Enhanced status line with context runway gauge (see below)
 
 #### Statusline Setup
@@ -56,16 +58,14 @@ The statusline hook provides an enhanced status display with:
 
 ```json
 {
-  "hooks": {
-    "Status": [
-      {
-        "type": "command",
-        "command": "~/.claude/plugins/marketplaces/buildatscale-claude-code/plugins/buildatscale/hooks/statusline.sh"
-      }
-    ]
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/plugins/marketplaces/buildatscale-claude-code/plugins/buildatscale/scripts/statusline.sh"
   }
 }
 ```
+
+> **Note:** Status line is configured as a top-level setting, not through the plugin system. This must be added manually after installing the plugin.
 
 **Configuration** (edit the script to customize):
 - `SHOW_COST=false` - Set to `true` to display session cost (useful for API users)
@@ -101,9 +101,10 @@ uv run "${SKILL_DIR}/scripts/image.py" \
     │   │   ├── ceo.md          # /buildatscale:ceo command
     │   │   ├── commit.md       # /buildatscale:commit command
     │   │   └── pr.md           # /buildatscale:pr command
-    │   └── hooks/
-    │       ├── block-force-git.sh
-    │       ├── file-write-cleanup.sh
+    │   ├── hooks/
+    │   │   ├── block-force-git.sh
+    │   │   └── file-write-cleanup.sh
+    │   └── scripts/
     │       └── statusline.sh
     └── nano-banana-pro/
         └── skills/
