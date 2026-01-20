@@ -2,7 +2,7 @@
 # BuildAtScale Statusline - Enhanced Claude Code status display
 #
 # Features:
-# - Context runway gauge (shows remaining context, not used)
+# - Context runway gauge (shows free context, not used)
 # - Color-coded warnings: yellow (low) → red (critical)
 # - Git branch display
 # - Relative path when in subdirectories
@@ -32,7 +32,7 @@ CTX_CRITICAL='\033[38;5;131m' # Muted red - compaction imminent
 
 # Configuration - Toggle items on/off
 SHOW_COST=false           # Show session cost (useful for API users, less relevant for subscriptions)
-CONTEXT_DISPLAY="remaining"  # "remaining" = runway left, "used" = classic consumed
+CONTEXT_DISPLAY="free"  # "free" = runway left, "used" = consumed
 CONTEXT_DETAIL="minimal"     # "full" = progress bar + %, "minimal" = just % with warning colors
 
 # Extract values
@@ -50,8 +50,8 @@ if [ "$SHOW_COST" = true ]; then
 fi
 # Context usage (pre-calculated by Claude Code)
 USED_PCT=$(printf "%.0f" "$(echo "$input" | jq -r '.context_window.used_percentage')")
-REMAINING_PCT=$((100 - USED_PCT))
-[ $REMAINING_PCT -lt 0 ] && REMAINING_PCT=0
+FREE_PCT=$((100 - USED_PCT))
+[ $FREE_PCT -lt 0 ] && FREE_PCT=0
 
 # Build context display
 BAR_WIDTH=20
@@ -60,16 +60,16 @@ BAR=""
 BAR_PLAIN=""
 
 # Determine which percentage to show
-if [ "$CONTEXT_DISPLAY" = "remaining" ]; then
-    DISPLAY_PCT=$REMAINING_PCT
+if [ "$CONTEXT_DISPLAY" = "free" ]; then
+    DISPLAY_PCT=$FREE_PCT
 else
     DISPLAY_PCT=$USED_PCT
 fi
 
-# Determine warning level (based on remaining, regardless of display mode)
-if [ $REMAINING_PCT -gt 25 ]; then
+# Determine warning level (based on free %, regardless of display mode)
+if [ $FREE_PCT -gt 25 ]; then
     WARN_LEVEL="ok"
-elif [ $REMAINING_PCT -gt 10 ]; then
+elif [ $FREE_PCT -gt 10 ]; then
     WARN_LEVEL="warning"
 else
     WARN_LEVEL="critical"
@@ -83,7 +83,7 @@ if [ "$CONTEXT_DETAIL" = "full" ]; then
     [ $FILLED -lt 0 ] && FILLED=0
     EMPTY=$((BAR_WIDTH - FILLED))
 
-    if [ "$CONTEXT_DISPLAY" = "remaining" ]; then
+    if [ "$CONTEXT_DISPLAY" = "free" ]; then
         # Runway gauge with warning colors
         case $WARN_LEVEL in
             ok) BAR_COLOR="$CTX_OK" ;;
