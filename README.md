@@ -69,7 +69,8 @@ The statusline hook provides an enhanced status display with:
 
 **Configuration** (edit the script to customize):
 - `SHOW_COST=false` - Set to `true` to display session cost (useful for API users)
-- `CONTEXT_DISPLAY="remaining"` - Set to `"used"` for classic fill-up bar instead of runway gauge
+- `CONTEXT_DISPLAY="remaining"` - What to show: `"remaining"` (runway left) or `"used"` (consumed)
+- `CONTEXT_DETAIL="minimal"` - How to show it: `"full"` (progress bar + %) or `"minimal"` (just % with warning colors)
 
 ### nano-banana-pro (Skill)
 

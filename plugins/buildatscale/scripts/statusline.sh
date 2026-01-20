@@ -3,7 +3,7 @@
 #
 # Features:
 # - Context runway gauge (shows remaining context, not used)
-# - Color-coded warnings: green (OK) → yellow (low) → red (critical)
+# - Color-coded warnings: yellow (low) → red (critical)
 # - Git branch display
 # - Relative path when in subdirectories
 # - Configurable cost display
@@ -31,8 +31,9 @@ CTX_WARNING='\033[38;5;136m' # Muted yellow/gold - getting low
 CTX_CRITICAL='\033[38;5;131m' # Muted red - compaction imminent
 
 # Configuration - Toggle items on/off
-SHOW_COST=false        # Show session cost (useful for API users, less relevant for subscriptions)
-CONTEXT_DISPLAY="remaining"  # "remaining" = runway gauge (default), "used" = classic fill-up
+SHOW_COST=false           # Show session cost (useful for API users, less relevant for subscriptions)
+CONTEXT_DISPLAY="remaining"  # "remaining" = runway left, "used" = classic consumed
+CONTEXT_DETAIL="minimal"     # "full" = progress bar + %, "minimal" = just % with warning colors
 
 # Extract values
 MODEL=$(echo "$input" | jq -r '.model.display_name')
@@ -52,34 +53,59 @@ USED_PCT=$(printf "%.0f" "$(echo "$input" | jq -r '.context_window.used_percenta
 REMAINING_PCT=$((100 - USED_PCT))
 [ $REMAINING_PCT -lt 0 ] && REMAINING_PCT=0
 
-# Build progress bar (20 chars wide, 5% per block)
+# Build context display
 BAR_WIDTH=20
+PCT_COLOR=""
+BAR=""
+BAR_PLAIN=""
+
+# Determine which percentage to show
 if [ "$CONTEXT_DISPLAY" = "remaining" ]; then
-    # Runway gauge: bar depletes as context is consumed
     DISPLAY_PCT=$REMAINING_PCT
-    FILLED=$((REMAINING_PCT * BAR_WIDTH / 100))
-    # Color based on remaining runway
-    if [ $REMAINING_PCT -gt 25 ]; then
-        BAR_COLOR="$CTX_OK"
-    elif [ $REMAINING_PCT -gt 10 ]; then
-        BAR_COLOR="$CTX_WARNING"
-    else
-        BAR_COLOR="$CTX_CRITICAL"
-    fi
 else
-    # Classic: bar fills as context grows
     DISPLAY_PCT=$USED_PCT
-    FILLED=$((USED_PCT * BAR_WIDTH / 100))
-    [ "$USED_PCT" -gt 0 ] && [ "$FILLED" -eq 0 ] && FILLED=1
-    BAR_COLOR="$GRAY"
 fi
-[ $FILLED -gt $BAR_WIDTH ] && FILLED=$BAR_WIDTH
-[ $FILLED -lt 0 ] && FILLED=0
-EMPTY=$((BAR_WIDTH - FILLED))
-# At critical level, empty blocks also turn red
-[ "$CONTEXT_DISPLAY" = "remaining" ] && [ $REMAINING_PCT -le 10 ] && EMPTY_COLOR="$CTX_CRITICAL" || EMPTY_COLOR="$GRAY"
-BAR="${BAR_COLOR}$(printf '%*s' "$FILLED" '' | tr ' ' '█')${EMPTY_COLOR}$(printf '%*s' "$EMPTY" '' | tr ' ' '░')${RESET}"
-BAR_PLAIN=$(printf '%*s' "$FILLED" '' | tr ' ' '█')$(printf '%*s' "$EMPTY" '' | tr ' ' '░')
+
+# Determine warning level (based on remaining, regardless of display mode)
+if [ $REMAINING_PCT -gt 25 ]; then
+    WARN_LEVEL="ok"
+elif [ $REMAINING_PCT -gt 10 ]; then
+    WARN_LEVEL="warning"
+else
+    WARN_LEVEL="critical"
+fi
+
+# Build bar or set text color based on detail level
+if [ "$CONTEXT_DETAIL" = "full" ]; then
+    FILLED=$((DISPLAY_PCT * BAR_WIDTH / 100))
+    [ "$DISPLAY_PCT" -gt 0 ] && [ "$FILLED" -eq 0 ] && FILLED=1
+    [ $FILLED -gt $BAR_WIDTH ] && FILLED=$BAR_WIDTH
+    [ $FILLED -lt 0 ] && FILLED=0
+    EMPTY=$((BAR_WIDTH - FILLED))
+
+    if [ "$CONTEXT_DISPLAY" = "remaining" ]; then
+        # Runway gauge with warning colors
+        case $WARN_LEVEL in
+            ok) BAR_COLOR="$CTX_OK" ;;
+            warning) BAR_COLOR="$CTX_WARNING" ;;
+            critical) BAR_COLOR="$CTX_CRITICAL" ;;
+        esac
+        [ "$WARN_LEVEL" = "critical" ] && EMPTY_COLOR="$CTX_CRITICAL" || EMPTY_COLOR="$GRAY"
+    else
+        # Classic mode - gray bar
+        BAR_COLOR="$GRAY"
+        EMPTY_COLOR="$GRAY"
+    fi
+    BAR="${BAR_COLOR}$(printf '%*s' "$FILLED" '' | tr ' ' '█')${EMPTY_COLOR}$(printf '%*s' "$EMPTY" '' | tr ' ' '░')${RESET} "
+    BAR_PLAIN="$(printf '%*s' "$FILLED" '' | tr ' ' '█')$(printf '%*s' "$EMPTY" '' | tr ' ' '░') "
+else
+    # Minimal: no bar, colored percentage text (no color when OK)
+    case $WARN_LEVEL in
+        ok) PCT_COLOR="$GRAY" ;;
+        warning) PCT_COLOR="$CTX_WARNING" ;;
+        critical) PCT_COLOR="$CTX_CRITICAL" ;;
+    esac
+fi
 
 # Git branch
 GIT_BRANCH="" GIT_BRANCH_PLAIN=""
@@ -117,8 +143,8 @@ fi
 # Build output
 LEFT="[${BLUE}${DIR_DISPLAY}${RESET}]${GIT_BRANCH}"
 LEFT_PLAIN="[${DIR_DISPLAY}]${GIT_BRANCH_PLAIN}"
-RIGHT_PLAIN="+${LINES_ADDED}/-${LINES_REMOVED} | ${BAR_PLAIN} ${DISPLAY_PCT}%${COST_SEGMENT_PLAIN} | ${MODEL}"
-RIGHT="${MUTED_GREEN}+${LINES_ADDED}${GRAY}/${MUTED_RED}-${LINES_REMOVED}${GRAY} | ${BAR} ${DISPLAY_PCT}%${COST_SEGMENT} | ${MODEL}${RESET}"
+RIGHT_PLAIN="+${LINES_ADDED}/-${LINES_REMOVED} | ${BAR_PLAIN}${DISPLAY_PCT}%${COST_SEGMENT_PLAIN} | ${MODEL}"
+RIGHT="${MUTED_GREEN}+${LINES_ADDED}${GRAY}/${MUTED_RED}-${LINES_REMOVED}${GRAY} | ${BAR}${PCT_COLOR}${DISPLAY_PCT}%${RESET}${COST_SEGMENT} | ${MODEL}${RESET}"
 
 # Right-align
 TERM_WIDTH=$(tput cols 2>/dev/null || echo 80)
