@@ -22,6 +22,11 @@ Claude Code plugins from BuildAtScale - slash commands, hooks, and skills for en
 /plugin install nano-banana-pro@buildatscale-claude-code
 ```
 
+**Promo video creation skill:**
+```bash
+/plugin install promo-video@buildatscale-claude-code
+```
+
 ## Available Plugins
 
 ### buildatscale (Core Tools)
@@ -66,6 +71,30 @@ uv run "${SKILL_DIR}/scripts/image.py" \
 - `--model`: `flash` (default, fast) or `pro` (high-quality)
 - `--size`: Resolution for pro model - `1K` (default), `2K`, `4K`
 
+### promo-video (Skill)
+
+Create professional promotional videos using Remotion with AI voiceover and background music. Invoke with `/promo-video`. Guides you through a 5-phase workflow: product analysis, theme selection, Remotion build, voiceover generation, and final render with music.
+
+**Prerequisites:**
+- [Node.js](https://nodejs.org/) (18+) - Required for Remotion video creation
+- [Python 3.x](https://www.python.org/) - Required for voiceover generation script
+- [ffmpeg](https://ffmpeg.org/) - Required for audio/video processing (`brew install ffmpeg`)
+- `ELEVEN_LABS_API_KEY` environment variable with your [ElevenLabs](https://elevenlabs.io/) API key
+- [Whisper](https://github.com/openai/whisper) (optional but recommended) - For voiceover timing verification (`pip install openai-whisper`)
+- `remotion-best-practices` skill installed (`npx skills add remotion-dev/skills`)
+
+**What it creates:**
+- 1920x1080 full HD promotional videos
+- AI-generated voiceover synced to on-screen visuals
+- Background music mixing with fade in/out
+- Professional transitions (metallic swoosh, zoom through, fade, slide)
+
+**Included resources:**
+- 3 royalty-free background music tracks (Pixabay)
+- ElevenLabs voiceover generation script with Whisper timing verification
+- Metallic swoosh transition implementation
+- Visual design patterns and animation techniques
+
 ## Repository Structure
 
 ```
@@ -81,12 +110,26 @@ uv run "${SKILL_DIR}/scripts/image.py" \
     │   └── hooks/
     │       ├── block-force-git.sh
     │       └── file-write-cleanup.sh
-    └── nano-banana-pro/
+    ├── nano-banana-pro/
+    │   └── skills/
+    │       └── generate/
+    │           ├── SKILL.md    # Skill documentation
+    │           └── scripts/
+    │               └── image.py
+    └── promo-video/
+        ├── CLAUDE.md           # Plugin documentation
         └── skills/
-            └── generate/
-                ├── SKILL.md    # Skill documentation
-                └── scripts/
-                    └── image.py
+            └── promo-video/
+                ├── SKILL.md              # 5-phase workflow guide
+                ├── promo-patterns.md     # Visual inspiration
+                ├── voiceover.md          # Voiceover generation guide
+                ├── metallic-swoosh.md    # Transition implementation
+                ├── scripts/
+                │   └── generate_voiceover.py
+                └── music/
+                    ├── inspired-ambient-141686.mp3
+                    ├── motivational-day-112790.mp3
+                    └── the-upbeat-inspiring-corporate-142313.mp3
 ```
 
 ## License

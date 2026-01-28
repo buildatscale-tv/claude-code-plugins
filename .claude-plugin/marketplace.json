@@ -51,6 +51,14 @@
       "skills": [
         "./skills/generate"
       ]
+    },
+    {
+      "name": "promo-video",
+      "description": "Create professional promotional videos using Remotion with AI voiceover and background music. Invoke with /promo-video.",
+      "source": "./plugins/promo-video",
+      "skills": [
+        "./skills/promo-video"
+      ]
     }
   ]
 }
