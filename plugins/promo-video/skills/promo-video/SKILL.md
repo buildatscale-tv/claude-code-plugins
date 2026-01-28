@@ -1,7 +1,6 @@
 ---
 name: promo-video
 description: Create professional promotional videos using Remotion with AI voiceover and background music. Invoke with /promo-video.
-disable-model-invocation: true
 allowed-tools: Bash(npm:*), Bash(npx:*), Bash(ffmpeg:*), Bash(python:*), Bash(git:*), Bash(whisper:*), Bash(pip:*), Read, Write, Edit, Glob, Grep, AskUserQuestion, Skill
 ---
 
@@ -232,7 +231,7 @@ Use your creative expertise to decide visual style and animation approach based 
 
 **Create the project (non-interactive):**
 ```bash
-yes "" | npx create-video@latest --blank promo-video/<project-name>
+yes "" | npx create-video@latest --blank --no-git promo-video/<project-name>
 cd promo-video/<project-name>
 npm install
 npm install lucide-react  # For icons
