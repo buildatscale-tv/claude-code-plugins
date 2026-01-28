@@ -73,7 +73,7 @@ uv run "${SKILL_DIR}/scripts/image.py" \
 
 ### promo-video (Skill)
 
-Create professional promotional videos using Remotion with AI voiceover and background music. Invoke with `/promo-video`. Guides you through a 5-phase workflow: product analysis, theme selection, Remotion build, voiceover generation, and final render with music.
+Create professional promotional videos using Remotion with AI voiceover and background music. Invoke with `/promo-video`. See the [demo video](https://www.youtube.com/watch?v=wi1Ys-6gr48). Guides you through a 5-phase workflow: product analysis, theme selection, Remotion build, voiceover generation, and final render with music.
 
 **Prerequisites:**
 - [Node.js](https://nodejs.org/) (18+) - Required for Remotion video creation
