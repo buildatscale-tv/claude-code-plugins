@@ -4,8 +4,8 @@
 input=$(cat)
 
 # Extract tool name and command from JSON
-tool_name=$(echo "$input" | python3 -c "import sys, json; data=json.load(sys.stdin); print(data.get('tool_name', ''))")
-command=$(echo "$input" | python3 -c "import sys, json; data=json.load(sys.stdin); print(data.get('tool_input', {}).get('command', ''))")
+tool_name=$(echo "$input" | jq -r '.tool_name // ""' 2>/dev/null)
+command=$(echo "$input" | jq -r '.tool_input.command // ""' 2>/dev/null)
 
 # Block git commands with force flags (only commands starting with 'git ')
 if [[ "$tool_name" == "Bash" && "$command" =~ ^git[[:space:]].*(--force|--force-with-lease|[[:space:]]-f([[:space:]]|$)) ]]; then

@@ -26,7 +26,20 @@
             "hooks": [
               {
                 "type": "command",
-                "command": "${CLAUDE_PLUGIN_ROOT}/hooks/block-force-git.sh"
+                "command": "${CLAUDE_PLUGIN_ROOT}/hooks/git-block-force-push.sh"
+              },
+              {
+                "type": "command",
+                "command": "${CLAUDE_PLUGIN_ROOT}/hooks/bash-guard.sh"
+              }
+            ]
+          },
+          {
+            "matcher": "Write|Edit|MultiEdit",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "${CLAUDE_PLUGIN_ROOT}/hooks/file-guard.sh"
               }
             ]
           }
