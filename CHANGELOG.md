@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.3.1 - 2026-02-01
+
+### Bug Fixes
+
+- Fixed missing execute permissions on `git-block-force-push.sh`, `bash-guard.sh`, and `file-guard.sh` hook scripts
+
 ## 1.3.0 - 2026-02-01
 
 ### Safety Hooks
