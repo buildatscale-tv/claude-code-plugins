@@ -2,6 +2,20 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.3.0 - 2026-02-01
+
+### Safety Hooks
+
+- Added `bash-guard` hook to validate bash commands before execution
+- Added `file-guard` hook to protect sensitive files from modifications
+- Renamed `block-force-git` to `git-block-force-push`
+
+## 1.2.0 - 2026-01-27
+
+### Promo Video
+
+- Added promo-video plugin for creating promotional videos using Remotion with AI voiceover and background music
+
 ## 1.1.0 - 2026-01-14
 
 ### Nano Banana Pro
