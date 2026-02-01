@@ -44,8 +44,10 @@ Core slash commands and hooks for git workflow automation.
 - `/buildatscale:ceo` - Create executive summary of work in progress, recent work, or recently deployed changes
 
 **Hooks:**
-- `block-force-git.sh` - Prevents dangerous git operations like force push
+- `bash-guard.sh` - Blocks dangerous bash commands (sudo, credential access, disk ops, exfiltration, etc.)
+- `file-guard.sh` - Blocks writes to system directories, config files, and credential files
 - `file-write-cleanup.sh` - Cleans up files after write/edit operations
+- `git-block-force-push.sh` - Prevents dangerous git operations like force push
 
 ### nano-banana-pro (Skill)
 
@@ -123,8 +125,10 @@ Create professional promotional videos using Remotion with AI voiceover and back
     │   │   ├── commit.md       # /buildatscale:commit command
     │   │   └── pr.md           # /buildatscale:pr command
     │   └── hooks/
-    │       ├── block-force-git.sh
-    │       └── file-write-cleanup.sh
+    │       ├── bash-guard.sh
+    │       ├── file-guard.sh
+    │       ├── file-write-cleanup.sh
+    │       └── git-block-force-push.sh
     ├── nano-banana-pro/
     │   └── skills/
     │       └── generate/
