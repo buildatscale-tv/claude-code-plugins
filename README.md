@@ -31,6 +31,11 @@ Claude Code plugins from BuildAtScale - slash commands, hooks, and skills for en
 
 ### buildatscale (Core Tools)
 
+```bash
+/plugin marketplace add https://github.com/buildatscale-tv/claude-code-plugins
+/plugin install buildatscale@buildatscale-claude-code
+```
+
 Core slash commands and hooks for git workflow automation.
 
 **Slash Commands:**
@@ -43,6 +48,11 @@ Core slash commands and hooks for git workflow automation.
 - `file-write-cleanup.sh` - Cleans up files after write/edit operations
 
 ### nano-banana-pro (Skill)
+
+```bash
+/plugin marketplace add https://github.com/buildatscale-tv/claude-code-plugins
+/plugin install nano-banana-pro@buildatscale-claude-code
+```
 
 Generate images using Google's Gemini models (Nano Banana Pro). See the [demo video](https://youtu.be/MNqUedk79IY).
 
@@ -72,6 +82,11 @@ uv run "${SKILL_DIR}/scripts/image.py" \
 - `--size`: Resolution for pro model - `1K` (default), `2K`, `4K`
 
 ### promo-video (Skill)
+
+```bash
+/plugin marketplace add https://github.com/buildatscale-tv/claude-code-plugins
+/plugin install promo-video@buildatscale-claude-code
+```
 
 Create professional promotional videos using Remotion with AI voiceover and background music. Invoke with `/promo-video`. See the [demo video](https://www.youtube.com/watch?v=wi1Ys-6gr48). Guides you through a 5-phase workflow: product analysis, theme selection, Remotion build, voiceover generation, and final render with music.
 
