@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if ! command -v jq &>/dev/null; then
+  echo "ERROR: jq is required for safety hooks but not found. Install with: brew install jq" >&2
+  exit 2
+fi
+
 # Read JSON input from stdin
 input=$(cat)
 

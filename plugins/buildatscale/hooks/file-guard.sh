@@ -3,6 +3,11 @@
 # Blocks writes to dangerous paths via PreToolUse hook
 # Exit 0 = allow, Exit 2 = block with message to stderr
 
+if ! command -v jq &>/dev/null; then
+  echo "ERROR: jq is required for safety hooks but not found. Install with: brew install jq" >&2
+  exit 2
+fi
+
 input=$(cat)
 # Single jq call to extract both fields (faster than multiple Python invocations)
 eval "$(echo "$input" | jq -r '@sh "tool_name=\(.tool_name // "") file_path=\(.tool_input.file_path // "")"' 2>/dev/null)"

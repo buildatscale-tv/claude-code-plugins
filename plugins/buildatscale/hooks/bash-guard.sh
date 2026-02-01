@@ -3,6 +3,11 @@
 # Blocks dangerous commands BEFORE execution via PreToolUse hook
 # Exit 0 = allow, Exit 2 = block with message to stderr
 
+if ! command -v jq &>/dev/null; then
+  echo "ERROR: jq is required for safety hooks but not found. Install with: brew install jq" >&2
+  exit 2
+fi
+
 input=$(cat)
 command=$(echo "$input" | jq -r '.tool_input.command // ""' 2>/dev/null)
 

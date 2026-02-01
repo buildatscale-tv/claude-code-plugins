@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Claude Code plugins from BuildAtScale - commands, hooks, and skills for enhanced productivity",
-    "version": "1.3.1",
+    "version": "1.3.2",
     "homepage": "https://github.com/buildatscale-tv/claude-code-plugins"
   },
   "plugins": [

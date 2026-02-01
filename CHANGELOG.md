@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.3.2 - 2026-02-01
+
+### Safety Hooks
+
+- Added `jq` dependency check to all safety hooks to prevent silent failures when `jq` is not installed
+
 ## 1.3.1 - 2026-02-01
 
 ### Bug Fixes
