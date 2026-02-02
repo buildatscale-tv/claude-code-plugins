@@ -56,7 +56,7 @@ Core slash commands and hooks for git workflow automation.
 
 The statusline hook provides an enhanced status display with:
 - **Context runway gauge** - Shows remaining context (not used), so you know how much runway you have left
-- **Color-coded warnings** - Optional coloring: Green (OK) → Yellow (low) → Red (critical, compaction needed soon)
+- **Color-coded warnings** - Optional coloring: Green (OK) → Yellow (low) → Red (critical, compaction needed)
 - **Configurable thresholds** - Set custom warning/critical percentages
 - **Git branch display** - Current branch in green
 - **Relative path display** - Shows `./project/subdir` when in subdirectories
