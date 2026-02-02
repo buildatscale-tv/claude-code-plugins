@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.4.0 - 2026-02-02
+
+### BuildAtScale Core
+
+- Added `statusline.sh` - Enhanced status line hook with context runway gauge
+  - Shows remaining context percentage instead of used (runway gauge mode)
+  - Color-coded warnings with `--color-usage` flag (green/yellow/red) or `--color-usage warnings` (yellow/red only)
+  - Configurable thresholds: `--usage-warning <pct>` and `--usage-critical <pct>` (defaults: 25/10)
+  - Full bar turns red at critical level
+  - Git branch display with relative path when in subdirectories
+  - Configurable cost display for API users
+  - Uses `remaining_percentage` from Claude Code JSON when available for accuracy
+  - CLI flags: `--cost`, `--display`, `--detail`, `--color-usage`, `--usage-warning`, `--usage-critical`, `--no-color`
+  - Handles null context data gracefully
+
 ## 1.3.2 - 2026-02-01
 
 ### Safety Hooks
