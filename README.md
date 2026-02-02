@@ -49,6 +49,60 @@ Core slash commands and hooks for git workflow automation.
 - `file-write-cleanup.sh` - Cleans up files after write/edit operations
 - `git-block-force-push.sh` - Prevents dangerous git operations like force push
 
+**Scripts:**
+- `statusline.sh` - Enhanced status line with context runway gauge (see below)
+
+#### Statusline Setup
+
+The statusline hook provides an enhanced status display with:
+- **Context runway gauge** - Shows remaining context (not used), so you know how much runway you have left
+- **Color-coded warnings** - Optional coloring: Green (OK) → Yellow (low) → Red (critical, compaction needed soon)
+- **Configurable thresholds** - Set custom warning/critical percentages
+- **Git branch display** - Current branch in green
+- **Relative path display** - Shows `./project/subdir` when in subdirectories
+- **Configurable cost display** - Toggle on/off for API users
+
+**Example output:**
+```
+[./website/src][main]              +156/-23 | ████████████░░░░░░░░ 58% | Opus
+```
+
+**To enable**, add to your `~/.claude/settings.json`:
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/plugins/marketplaces/buildatscale-claude-code/plugins/buildatscale/scripts/statusline.sh"
+  }
+}
+```
+
+> **Note:** Status line is configured as a top-level setting, not through the plugin system. This must be added manually after installing the plugin.
+
+**Flags** (append to the command string):
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--display <free\|used>` | What to show: `free` (runway left) or `used` (consumed) | `free` |
+| `--detail <full\|minimal>` | `full` (progress bar + %) or `minimal` (just %) | `minimal` |
+| `--color-usage` | Colorize context gauge (green/yellow/red) | off (gray) |
+| `--color-usage warnings` | Only color at warning/critical levels (gray when OK) | — |
+| `--usage-warning <pct>` | Free % threshold for warning color | `25` |
+| `--usage-critical <pct>` | Free % threshold for critical color | `10` |
+| `--no-color` | Disable all ANSI colors/formatting | off |
+| `--cost` | Show session cost (useful for API users) | off |
+
+**Example with flags:**
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/plugins/marketplaces/buildatscale-claude-code/plugins/buildatscale/scripts/statusline.sh --detail full --color-usage warnings --cost"
+  }
+}
+```
+
 ### nano-banana-pro (Skill)
 
 ```bash
@@ -124,11 +178,13 @@ Create professional promotional videos using Remotion with AI voiceover and back
     │   │   ├── ceo.md          # /buildatscale:ceo command
     │   │   ├── commit.md       # /buildatscale:commit command
     │   │   └── pr.md           # /buildatscale:pr command
-    │   └── hooks/
-    │       ├── bash-guard.sh
-    │       ├── file-guard.sh
-    │       ├── file-write-cleanup.sh
-    │       └── git-block-force-push.sh
+    │   ├── hooks/
+    │   │   ├── bash-guard.sh
+    │   │   ├── file-guard.sh
+    │   │   ├── file-write-cleanup.sh
+    │   │   └── git-block-force-push.sh
+    │   └── scripts/
+    │       └── statusline.sh
     ├── nano-banana-pro/
     │   └── skills/
     │       └── generate/
