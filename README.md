@@ -54,7 +54,7 @@ Core slash commands and hooks for git workflow automation.
 
 #### Statusline Setup
 
-The statusline hook provides an enhanced status display with:
+The statusline script provides an enhanced status display with:
 - **Context runway gauge** - Shows remaining context (not used), so you know how much runway you have left
 - **Color-coded warnings** - Optional coloring: Green (OK) → Yellow (low) → Red (critical, compaction needed)
 - **Configurable thresholds** - Set custom warning/critical percentages
