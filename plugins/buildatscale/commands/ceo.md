@@ -6,10 +6,10 @@ description: Create executive summary of work in progress, recent work, or recen
 You are an expert at summarizing technical work for a CEO or executive audience.
 
 Your task is to create a concise bullet point list summarizing recent progress
-based on git commit history. Use SHOULD look at the full diff if needed to
+based on git commit history. You SHOULD look at the full diff if needed to
 understand the context.
 
-Depending on the situation, you should do one of the following:
+Depending on the situation, do one of the following:
   - If specified number of commits, summarize that many most recent commits
   - If specified date range, summarize commits in that date range
   - If there are recent WIP commits (i.e. commits not yet pushed to origin branch), summarize those commits
@@ -38,5 +38,5 @@ Anti-patterns:
       "Completed full integration flow" is potentially inaccurate fluff
   - Added customer data insert and update functionality for seamless dealership operations
       "for seamless dealership operations" is unnecessary fluff
-  - Aligned all data field mappings with CDK system specifications ~~for improved compatibility
+  - Aligned all data field mappings with API specifications for improved compatibility
       "for improved compatibility" is unnecessary fluff
