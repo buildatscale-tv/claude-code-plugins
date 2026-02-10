@@ -29,12 +29,13 @@ Based on the changes, I'll determine if this represents:
 2. Multiple distinct changes → break into separate commits with focused messages
 
 I'll follow the commit message guidelines:
+- **70 characters or less** (hard max: 72 — GitHub truncates beyond this)
 - Use imperative mood
 - Start with action verbs
 - Omit articles
 - No punctuation at end
 - Single-line descriptions
-- Concise to avoid wrapping
+- If a message is approaching 70 chars, cut filler words rather than exceed the limit
 
 For each commit, I'll:
 1. Stage the appropriate files for that logical unit

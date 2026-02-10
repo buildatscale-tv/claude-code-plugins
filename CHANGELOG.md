@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.4.1 - 2026-02-10
+
+### BuildAtScale Core
+
+- Enforced 70-character hard max on commit messages in `/buildatscale:commit` (GitHub truncates beyond 72)
+- Refined bullet points in CEO summary for clarity
+
 ## 1.4.0 - 2026-02-02
 
 ### BuildAtScale Core
