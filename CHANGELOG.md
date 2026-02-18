@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.4.2 - 2026-02-17
+
+### Nano Banana Pro
+
+- Added support for multiple reference images via repeated `--reference` flags
+- Prompt text adapts to single vs. multiple references for better Gemini results
+
 ## 1.4.1 - 2026-02-10
 
 ### BuildAtScale Core

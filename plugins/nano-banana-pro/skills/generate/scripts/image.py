@@ -13,6 +13,7 @@ Usage:
     uv run generate_image.py --prompt "A colorful abstract pattern" --output "./hero.png"
     uv run generate_image.py --prompt "Minimalist icon" --output "./icon.png" --aspect landscape
     uv run generate_image.py --prompt "Similar style image" --output "./new.png" --reference "./existing.png"
+    uv run generate_image.py --prompt "Blend these styles" --output "./new.png" --reference "./a.png" --reference "./b.png"
     uv run generate_image.py --prompt "High quality art" --output "./art.png" --model pro --size 2K
 """
 
@@ -44,7 +45,7 @@ def generate_image(
     prompt: str,
     output_path: str,
     aspect: str = "square",
-    reference: str | None = None,
+    references: list[str] | None = None,
     model: str = "flash",
     size: str = "1K",
 ) -> None:
@@ -59,15 +60,18 @@ def generate_image(
     aspect_instruction = get_aspect_instruction(aspect)
     full_prompt = f"{aspect_instruction} {prompt}"
 
-    # Build contents with optional reference image
+    # Build contents with optional reference images
     contents: list = []
-    if reference:
-        if not os.path.exists(reference):
-            print(f"Error: Reference image not found: {reference}", file=sys.stderr)
-            sys.exit(1)
-        ref_image = Image.open(reference)
-        contents.append(ref_image)
-        full_prompt = f"{full_prompt} Use the provided image as a reference for style, composition, or content."
+    if references:
+        for ref_path in references:
+            if not os.path.exists(ref_path):
+                print(f"Error: Reference image not found: {ref_path}", file=sys.stderr)
+                sys.exit(1)
+            contents.append(Image.open(ref_path))
+        if len(references) == 1:
+            full_prompt = f"{full_prompt} Use the provided image as a reference for style, composition, or content."
+        else:
+            full_prompt = f"{full_prompt} Use the provided {len(references)} images as references for style, composition, or content."
     contents.append(full_prompt)
 
     model_id = MODEL_IDS[model]
@@ -134,7 +138,9 @@ def main():
     )
     parser.add_argument(
         "--reference",
-        help="Path to a reference image for style/composition guidance (optional)",
+        action="append",
+        dest="references",
+        help="Path to a reference image (can be specified multiple times for multiple references)",
     )
     parser.add_argument(
         "--model",
@@ -150,7 +156,7 @@ def main():
     )
 
     args = parser.parse_args()
-    generate_image(args.prompt, args.output, args.aspect, args.reference, args.model, args.size)
+    generate_image(args.prompt, args.output, args.aspect, args.references, args.model, args.size)
 
 
 if __name__ == "__main__":
