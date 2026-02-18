@@ -36,7 +36,7 @@ Options:
 - `--prompt` (required): Detailed description of the image to generate
 - `--output` (required): Output file path (PNG format)
 - `--aspect` (optional): Aspect ratio - "square", "landscape", "portrait" (default: square)
-- `--reference` (optional): Path to a reference image for style, composition, or content guidance
+- `--reference` (optional, repeatable): Path to a reference image for style, composition, or content guidance. Can be specified multiple times for multiple references.
 - `--model` (optional): Model to use - "flash" (fast) or "pro" (high-quality) (default: flash)
 - `--size` (optional): Image resolution for pro model - "1K", "2K", "4K" (default: 1K, ignored for flash)
 
@@ -59,7 +59,7 @@ uv run "${SKILL_DIR}/scripts/image.py" \
   --size 2K
 ```
 
-### Using a Reference Image
+### Using Reference Images
 
 To generate an image based on an existing reference:
 
@@ -70,7 +70,17 @@ uv run "${SKILL_DIR}/scripts/image.py" \
   --reference "/path/to/reference.png"
 ```
 
-The reference image helps Gemini understand the desired style, composition, or visual elements you want in the generated image.
+To use multiple reference images (e.g., blend styles from several sources):
+
+```bash
+uv run "${SKILL_DIR}/scripts/image.py" \
+  --prompt "Combine the color palette of the first image with the composition of the second" \
+  --output "/path/to/output.png" \
+  --reference "/path/to/style-ref.png" \
+  --reference "/path/to/composition-ref.png"
+```
+
+Reference images help Gemini understand the desired style, composition, or visual elements you want in the generated image. When multiple references are provided, all images are sent to the model together.
 
 ### Step 2: Integrate with Frontend Design
 

@@ -18,7 +18,7 @@ Options:
 - `--prompt` (required): Image description
 - `--output` (required): Output file path (PNG)
 - `--aspect` (optional): `square` (default), `landscape`, `portrait`
-- `--reference` (optional): Path to reference image for style guidance
+- `--reference` (optional, repeatable): Path to reference image for style guidance. Use multiple times for multiple references.
 - `--model` (optional): `flash` (default, fast) or `pro` (high-quality, up to 4K)
 - `--size` (optional): `1K` (default), `2K`, `4K` - resolution for pro model only
 
