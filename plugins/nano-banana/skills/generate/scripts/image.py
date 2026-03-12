@@ -7,7 +7,7 @@
 # ]
 # ///
 """
-Generate images using Google's Gemini image models.
+Generate images using Google's Gemini image models (Nano Banana family).
 
 Usage:
     uv run generate_image.py --prompt "A colorful abstract pattern" --output "./hero.png"
@@ -15,6 +15,7 @@ Usage:
     uv run generate_image.py --prompt "Similar style image" --output "./new.png" --reference "./existing.png"
     uv run generate_image.py --prompt "Blend these styles" --output "./new.png" --reference "./a.png" --reference "./b.png"
     uv run generate_image.py --prompt "High quality art" --output "./art.png" --model pro --size 2K
+    uv run generate_image.py --prompt "Fast high-res" --output "./fast.png" --model 2 --size 2K --aspect 4:3
 """
 
 import argparse
@@ -28,17 +29,54 @@ from PIL import Image
 MODEL_IDS = {
     "flash": "gemini-2.5-flash-image",
     "pro": "gemini-3-pro-image-preview",
+    "2": "gemini-3.1-flash-image-preview",
+}
+
+# Named shortcuts for common aspect ratios
+ASPECT_ALIASES = {
+    "square": "1:1",
+    "landscape": "16:9",
+    "portrait": "9:16",
+}
+
+# All valid aspect ratios (Nano Banana 2 superset)
+ALL_ASPECT_RATIOS = [
+    "1:1", "1:4", "1:8", "2:3", "3:2", "3:4", "4:1",
+    "4:3", "4:5", "5:4", "8:1", "9:16", "16:9", "21:9",
+]
+
+# Aspect ratios supported per model
+MODEL_ASPECT_RATIOS = {
+    "flash": ["1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9"],
+    "pro": ["1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9"],
+    "2": ALL_ASPECT_RATIOS,
 }
 
 
-def get_aspect_instruction(aspect: str) -> str:
+def resolve_aspect(aspect: str) -> str:
+    """Resolve a named alias or direct ratio string to a ratio string."""
+    return ASPECT_ALIASES.get(aspect, aspect)
+
+
+def get_aspect_instruction(aspect_ratio: str) -> str:
     """Return aspect ratio instruction for the prompt."""
-    aspects = {
-        "square": "Generate a square image (1:1 aspect ratio).",
-        "landscape": "Generate a landscape/wide image (16:9 aspect ratio).",
-        "portrait": "Generate a portrait/tall image (9:16 aspect ratio).",
+    descriptions = {
+        "1:1": "Generate a square image (1:1 aspect ratio).",
+        "1:4": "Generate a tall narrow image (1:4 aspect ratio).",
+        "1:8": "Generate a very tall narrow image (1:8 aspect ratio).",
+        "2:3": "Generate a tall image (2:3 aspect ratio).",
+        "3:2": "Generate a wide image (3:2 aspect ratio).",
+        "3:4": "Generate a tall image (3:4 aspect ratio).",
+        "4:1": "Generate a wide panoramic image (4:1 aspect ratio).",
+        "4:3": "Generate a landscape image (4:3 aspect ratio).",
+        "4:5": "Generate a slightly tall image (4:5 aspect ratio).",
+        "5:4": "Generate a slightly wide image (5:4 aspect ratio).",
+        "8:1": "Generate a very wide panoramic image (8:1 aspect ratio).",
+        "9:16": "Generate a portrait/tall image (9:16 aspect ratio).",
+        "16:9": "Generate a landscape/wide image (16:9 aspect ratio).",
+        "21:9": "Generate an ultrawide image (21:9 aspect ratio).",
     }
-    return aspects.get(aspect, aspects["square"])
+    return descriptions.get(aspect_ratio, f"Generate an image with {aspect_ratio} aspect ratio.")
 
 
 def generate_image(
@@ -57,7 +95,15 @@ def generate_image(
 
     client = genai.Client(api_key=api_key)
 
-    aspect_instruction = get_aspect_instruction(aspect)
+    aspect_ratio = resolve_aspect(aspect)
+
+    # Validate aspect ratio for selected model
+    valid_ratios = MODEL_ASPECT_RATIOS[model]
+    if aspect_ratio not in valid_ratios:
+        print(f"Error: Aspect ratio '{aspect_ratio}' not supported for model '{model}'. Valid ratios: {', '.join(valid_ratios)}", file=sys.stderr)
+        sys.exit(1)
+
+    aspect_instruction = get_aspect_instruction(aspect_ratio)
     full_prompt = f"{aspect_instruction} {prompt}"
 
     # Build contents with optional reference images
@@ -76,13 +122,16 @@ def generate_image(
 
     model_id = MODEL_IDS[model]
 
-    # Pro model supports additional config for resolution
-    if model == "pro":
-        aspect_ratios = {"square": "1:1", "landscape": "16:9", "portrait": "9:16"}
+    # Pro and Nano Banana 2 models support image_config for resolution and aspect ratio
+    if model in ("pro", "2"):
+        valid_sizes = ["512", "1K", "2K", "4K"] if model == "2" else ["1K", "2K", "4K"]
+        if size not in valid_sizes:
+            print(f"Error: Size '{size}' not supported for model '{model}'. Valid sizes: {', '.join(valid_sizes)}", file=sys.stderr)
+            sys.exit(1)
         config = types.GenerateContentConfig(
             response_modalities=["TEXT", "IMAGE"],
             image_config=types.ImageConfig(
-                aspect_ratio=aspect_ratios.get(aspect, "1:1"),
+                aspect_ratio=aspect_ratio,
                 image_size=size,
             ),
         )
@@ -118,7 +167,7 @@ def generate_image(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Generate images using Gemini (Flash or Pro)"
+        description="Generate images using Nano Banana (Gemini Flash, Pro, or 2)"
     )
     parser.add_argument(
         "--prompt",
@@ -132,9 +181,9 @@ def main():
     )
     parser.add_argument(
         "--aspect",
-        choices=["square", "landscape", "portrait"],
+        choices=list(ASPECT_ALIASES.keys()) + ALL_ASPECT_RATIOS,
         default="square",
-        help="Aspect ratio (default: square)",
+        help="Aspect ratio: named shortcut (square, landscape, portrait) or direct ratio (e.g. 4:3, 21:9). Default: square",
     )
     parser.add_argument(
         "--reference",
@@ -144,15 +193,15 @@ def main():
     )
     parser.add_argument(
         "--model",
-        choices=["flash", "pro"],
+        choices=["flash", "pro", "2"],
         default="flash",
-        help="Model: flash (fast, 1024px) or pro (high-quality, up to 4K) (default: flash)",
+        help="Model: flash (Nano Banana, fast, 1024px), pro (Nano Banana Pro, up to 4K), 2 (Nano Banana 2, fast + up to 4K) (default: flash)",
     )
     parser.add_argument(
         "--size",
-        choices=["1K", "2K", "4K"],
+        choices=["512", "1K", "2K", "4K"],
         default="1K",
-        help="Image resolution for pro model (default: 1K, ignored for flash)",
+        help="Image resolution for pro/2 models: 512 (2 only), 1K (default), 2K, 4K. Ignored for flash.",
     )
 
     args = parser.parse_args()

@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Claude Code plugins from BuildAtScale - commands, hooks, and skills for enhanced productivity",
-    "version": "1.4.2",
+    "version": "1.5.0",
     "homepage": "https://github.com/buildatscale-tv/claude-code-plugins"
   },
   "plugins": [
@@ -58,9 +58,9 @@
       }
     },
     {
-      "name": "nano-banana-pro",
-      "description": "Nano Banana Pro image generation. Use when user asks to generate an image, create an image, make an image, or mentions nano banana. Uses Google Gemini 2.5 Flash.",
-      "source": "./plugins/nano-banana-pro",
+      "name": "nano-banana",
+      "description": "Nano Banana image generation. Use when user asks to generate an image, create an image, make an image, or mentions nano banana. Supports Gemini Flash, Pro, and Nano Banana 2 models.",
+      "source": "./plugins/nano-banana",
       "skills": [
         "./skills/generate"
       ]

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Nano Banana Pro is a Claude Code plugin/skill for generating images using Google's Gemini models (Flash for speed, Pro for quality). It integrates as a skill that can be invoked via `/generate` or triggered by image generation requests.
+Nano Banana is a Claude Code plugin/skill for generating images using Google's Gemini models (Flash for speed, Pro for quality, Nano Banana 2 for fast high-res). It integrates as a skill that can be invoked via `/generate` or triggered by image generation requests.
 
 ## Running the Image Generation Script
 
@@ -17,10 +17,10 @@ uv run skills/generate/scripts/image.py \
 Options:
 - `--prompt` (required): Image description
 - `--output` (required): Output file path (PNG)
-- `--aspect` (optional): `square` (default), `landscape`, `portrait`
+- `--aspect` (optional): Named shortcut (`square`, `landscape`, `portrait`) or direct ratio (e.g. `4:3`, `16:9`, `21:9`). Default: square
 - `--reference` (optional, repeatable): Path to reference image for style guidance. Use multiple times for multiple references.
-- `--model` (optional): `flash` (default, fast) or `pro` (high-quality, up to 4K)
-- `--size` (optional): `1K` (default), `2K`, `4K` - resolution for pro model only
+- `--model` (optional): `flash` (default, fast), `pro` (high-quality, up to 4K), or `2` (Nano Banana 2, fast + up to 4K)
+- `--size` (optional): `512` (model 2 only), `1K` (default), `2K`, `4K` - resolution for pro/2 models only
 
 ## Prerequisites
 
@@ -31,7 +31,7 @@ Options:
 ## Architecture
 
 ```
-nano-banana-pro/
+nano-banana/
 ├── skills/
 │   └── generate/
 │       ├── SKILL.md          # Skill definition and usage docs

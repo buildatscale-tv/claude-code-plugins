@@ -1,9 +1,9 @@
 ---
 name: generate
-description: Nano Banana Pro (nano-banana-pro) image generation skill. Use this skill when the user asks to "generate an image", "generate images", "create an image", "make an image", uses "nano banana", or requests multiple images like "generate 5 images". Generates images using Google's Gemini 2.5 Flash for any purpose - frontend designs, web projects, illustrations, graphics, hero images, icons, backgrounds, or standalone artwork. Invoke this skill for ANY image generation request.
+description: Nano Banana (nano-banana) image generation skill. Use this skill when the user asks to "generate an image", "generate images", "create an image", "make an image", uses "nano banana", or requests multiple images like "generate 5 images". Generates images using Google's Gemini models (Flash, Pro, or Nano Banana 2) for any purpose - frontend designs, web projects, illustrations, graphics, hero images, icons, backgrounds, or standalone artwork. Invoke this skill for ANY image generation request.
 ---
 
-# Nano Banana Pro - Gemini Image Generation
+# Nano Banana - Gemini Image Generation
 
 Generate custom images using Google's Gemini models for integration into frontend designs.
 
@@ -13,10 +13,11 @@ Set the `GEMINI_API_KEY` environment variable with your Google AI API key.
 
 ## Available Models
 
-| Model | ID | Best For | Max Resolution |
-|-------|-----|----------|----------------|
-| **Flash** | `gemini-2.5-flash-image` | Speed, high-volume tasks | 1024px |
-| **Pro** | `gemini-3-pro-image-preview` | Professional quality, complex scenes | Up to 4K |
+| Model | Flag | ID | Best For | Max Resolution |
+|-------|------|----|----------|----------------|
+| **Flash** (Nano Banana) | `flash` | `gemini-2.5-flash-image` | Speed, high-volume tasks | 1024px |
+| **Pro** (Nano Banana Pro) | `pro` | `gemini-3-pro-image-preview` | Professional quality, complex scenes | Up to 4K |
+| **2** (Nano Banana 2) | `2` | `gemini-3.1-flash-image-preview` | Fast + high-res, best all-around | Up to 4K |
 
 ## Image Generation Workflow
 
@@ -35,10 +36,17 @@ Where `${SKILL_DIR}` is the directory containing this SKILL.md file.
 Options:
 - `--prompt` (required): Detailed description of the image to generate
 - `--output` (required): Output file path (PNG format)
-- `--aspect` (optional): Aspect ratio - "square", "landscape", "portrait" (default: square)
+- `--aspect` (optional): Named shortcut (`square`, `landscape`, `portrait`) or direct ratio (`1:1`, `1:4`, `1:8`, `2:3`, `3:2`, `3:4`, `4:1`, `4:3`, `4:5`, `5:4`, `8:1`, `9:16`, `16:9`, `21:9`). Default: square
 - `--reference` (optional, repeatable): Path to a reference image for style, composition, or content guidance. Can be specified multiple times for multiple references.
-- `--model` (optional): Model to use - "flash" (fast) or "pro" (high-quality) (default: flash)
-- `--size` (optional): Image resolution for pro model - "1K", "2K", "4K" (default: 1K, ignored for flash)
+- `--model` (optional): Model to use - `flash` (fast), `pro` (high-quality), or `2` (Nano Banana 2, fast + high-res). Default: flash
+- `--size` (optional): Image resolution for pro/2 models - `512` (2 only), `1K`, `2K`, `4K`. Default: 1K. Ignored for flash.
+
+### Aspect Ratios by Model
+
+| Ratio | Flash | Pro | 2 |
+|-------|-------|-----|---|
+| 1:1, 2:3, 3:2, 3:4, 4:3, 4:5, 5:4, 9:16, 16:9, 21:9 | Yes | Yes | Yes |
+| 1:4, 1:8, 4:1, 8:1 | No | No | Yes |
 
 ### Using Different Models
 
@@ -57,6 +65,16 @@ uv run "${SKILL_DIR}/scripts/image.py" \
   --output "/path/to/hero.png" \
   --model pro \
   --size 2K
+```
+
+**Nano Banana 2** - Fast with high-res output and extra aspect ratios:
+```bash
+uv run "${SKILL_DIR}/scripts/image.py" \
+  --prompt "A vibrant infographic about photosynthesis" \
+  --output "/path/to/infographic.png" \
+  --model 2 \
+  --size 2K \
+  --aspect 16:9
 ```
 
 ### Using Reference Images
@@ -81,6 +99,11 @@ uv run "${SKILL_DIR}/scripts/image.py" \
 ```
 
 Reference images help Gemini understand the desired style, composition, or visual elements you want in the generated image. When multiple references are provided, all images are sent to the model together.
+
+**Reference image limits:**
+- Flash: up to 3 reference images
+- Pro: up to 6 object images + 5 character images (14 total)
+- 2: up to 10 object images + 4 character images (14 total)
 
 ### Step 2: Integrate with Frontend Design
 
@@ -137,7 +160,7 @@ When used alongside the frontend-design skill:
 ### Example Workflow
 
 1. User requests a landing page with custom hero imagery
-2. Invoke nano-banana-pro to generate the hero image with a prompt matching the design aesthetic
+2. Invoke nano-banana to generate the hero image with a prompt matching the design aesthetic
 3. Invoke frontend-design to build the page, referencing the generated image
 4. Result: A cohesive design with custom AI-generated visuals
 

@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.5.0 - 2026-03-11
+
+### Nano Banana
+
+- Renamed plugin from `nano-banana-pro` to `nano-banana` to house all Nano Banana models
+- Added Nano Banana 2 model (`gemini-3.1-flash-image-preview`) via `--model 2` flag
+- Added all 14 aspect ratios supported by Nano Banana 2: 1:1, 1:4, 1:8, 2:3, 3:2, 3:4, 4:1, 4:3, 4:5, 5:4, 8:1, 9:16, 16:9, 21:9
+- Added direct ratio syntax for `--aspect` flag (e.g. `--aspect 4:3`) alongside named shortcuts
+- Added `512` resolution option for Nano Banana 2 model
+- Added per-model aspect ratio validation
+
 ## 1.4.2 - 2026-02-17
 
 ### Nano Banana Pro
