@@ -19,7 +19,7 @@ Options:
 - `--output` (required): Output file path (PNG)
 - `--aspect` (optional): Named shortcut (`square`, `landscape`, `portrait`) or direct ratio (e.g. `4:3`, `16:9`, `21:9`). Default: square
 - `--reference` (optional, repeatable): Path to reference image for style guidance. Use multiple times for multiple references.
-- `--model` (optional): `flash` (default, fast), `pro` (high-quality, up to 4K), or `2` (Nano Banana 2, fast + up to 4K)
+- `--model` (optional): `flash` (fast, 1024px), `pro` (high-quality, up to 4K), or `2` (default, Nano Banana 2, fast + up to 4K)
 - `--size` (optional): `512` (model 2 only), `1K` (default), `2K`, `4K` - resolution for pro/2 models only
 
 ## Prerequisites

@@ -38,7 +38,7 @@ Options:
 - `--output` (required): Output file path (PNG format)
 - `--aspect` (optional): Named shortcut (`square`, `landscape`, `portrait`) or direct ratio (`1:1`, `1:4`, `1:8`, `2:3`, `3:2`, `3:4`, `4:1`, `4:3`, `4:5`, `5:4`, `8:1`, `9:16`, `16:9`, `21:9`). Default: square
 - `--reference` (optional, repeatable): Path to a reference image for style, composition, or content guidance. Can be specified multiple times for multiple references.
-- `--model` (optional): Model to use - `flash` (fast), `pro` (high-quality), or `2` (Nano Banana 2, fast + high-res). Default: flash
+- `--model` (optional): Model to use - `flash` (fast), `pro` (high-quality), or `2` (Nano Banana 2, fast + high-res). Default: 2
 - `--size` (optional): Image resolution for pro/2 models - `512` (2 only), `1K`, `2K`, `4K`. Default: 1K. Ignored for flash.
 
 ### Aspect Ratios by Model
@@ -50,7 +50,7 @@ Options:
 
 ### Using Different Models
 
-**Flash model (default)** - Fast generation, good for iterations:
+**Flash model** - Fast generation, good for iterations:
 ```bash
 uv run "${SKILL_DIR}/scripts/image.py" \
   --prompt "A minimalist logo design" \
@@ -67,7 +67,7 @@ uv run "${SKILL_DIR}/scripts/image.py" \
   --size 2K
 ```
 
-**Nano Banana 2** - Fast with high-res output and extra aspect ratios:
+**Nano Banana 2 (default)** - Fast with high-res output and extra aspect ratios:
 ```bash
 uv run "${SKILL_DIR}/scripts/image.py" \
   --prompt "A vibrant infographic about photosynthesis" \

@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.5.1 - 2026-03-11
+
+### Nano Banana
+
+- Changed default model from Flash to Nano Banana 2 (`--model 2`) for faster high-res output out of the box
+
 ## 1.5.0 - 2026-03-11
 
 ### Nano Banana

@@ -135,7 +135,7 @@ uv run "${SKILL_DIR}/scripts/image.py" \
 - `--output` (required): Output file path (PNG)
 - `--aspect`: Named shortcut (`square`, `landscape`, `portrait`) or direct ratio (e.g. `4:3`, `16:9`, `21:9`)
 - `--reference`: Path to a reference image for style guidance (repeatable)
-- `--model`: `flash` (default, fast), `pro` (high-quality), or `2` (Nano Banana 2, fast + high-res)
+- `--model`: `flash` (fast, 1024px), `pro` (high-quality), or `2` (default, Nano Banana 2, fast + high-res)
 - `--size`: Resolution for pro/2 models - `512` (2 only), `1K` (default), `2K`, `4K`
 
 ### promo-video (Skill)
