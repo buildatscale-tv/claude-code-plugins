@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.5.2 - 2026-03-16
+
+### Nano Banana
+
+- Added automatic `GEMINI_API_KEY` loading from project `.env` file before image generation
+- Added safety rules to prevent accidental secret exposure in command output
+
 ## 1.5.1 - 2026-03-11
 
 ### Nano Banana

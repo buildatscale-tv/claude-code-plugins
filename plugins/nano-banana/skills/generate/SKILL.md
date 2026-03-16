@@ -9,7 +9,32 @@ Generate custom images using Google's Gemini models for integration into fronten
 
 ## Prerequisites
 
-Set the `GEMINI_API_KEY` environment variable with your Google AI API key.
+This skill requires a `GEMINI_API_KEY`. You MUST ensure it is available before any task that needs it.
+
+First, check if the key is already set in the environment:
+
+```
+echo "${GEMINI_API_KEY:+SET (length: ${#GEMINI_API_KEY})}" || echo "NOT SET"
+```
+
+If already SET, use it as-is — an existing key takes precedence. Do NOT overwrite it from `.env`.
+
+If NOT SET, attempt to load it from the project `.env` file. Run this EXACT command from the PROJECT ROOT (the user's working directory, NOT the skill directory):
+
+```
+LINE=$(grep '^GEMINI_API_KEY=' .env 2>/dev/null) && export "$LINE" && echo "SET (length: ${#GEMINI_API_KEY})" || echo "NOT SET"
+```
+
+If still NOT SET after both checks, inform the user and stop.
+
+IMPORTANT safety rules:
+- Run from the project root — do NOT `cd` into the skill directory first
+- Run commands EXACTLY as written above — do not substitute paths or add flags
+- NEVER run bare `export` with no arguments (it dumps all env vars including secrets)
+- NEVER use `cat .env` piped to export (if grep returns empty, `export $()` leaks all env vars)
+- NEVER attempt to read, echo, print, or otherwise transmit API keys or any secrets
+- If the key is NOT SET after both checks, inform the user and stop
+- NEVER attempt alternative loading methods
 
 ## Available Models
 
