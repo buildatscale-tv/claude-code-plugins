@@ -27,6 +27,11 @@ Claude Code plugins from BuildAtScale - slash commands, hooks, and skills for en
 /plugin install promo-video@buildatscale-claude-code
 ```
 
+**Frontend design skill:**
+```bash
+/plugin install frontend-design@buildatscale-claude-code
+```
+
 ## Available Plugins
 
 ### buildatscale (Core Tools)
@@ -167,6 +172,27 @@ Create professional promotional videos using Remotion with AI voiceover and back
 - Metallic swoosh transition implementation
 - Visual design patterns and animation techniques
 
+### frontend-design (Skill)
+
+```bash
+/plugin marketplace add https://github.com/buildatscale-tv/claude-code-plugins
+/plugin install frontend-design@buildatscale-claude-code
+```
+
+Create distinctive, production-grade frontend interfaces that avoid generic AI aesthetics. Guides you through bold design thinking — typography, color, motion, spatial composition, and visual details — then implements polished, working code.
+
+**What it does:**
+- Commits to a specific aesthetic direction (brutalist, maximalist, retro-futuristic, editorial, etc.)
+- Enforces anti-patterns: no Inter/Roboto, no purple gradients on white, no cookie-cutter layouts
+- Distinctive typography with curated Google Fonts pairings
+- High-impact animations with staggered reveals and scroll-triggered effects
+- Integrates with nano-banana for custom AI-generated imagery
+
+**Supports:**
+- HTML/CSS/JS single-page builds
+- React and Vue component architectures
+- Any framework the user specifies
+
 ## Repository Structure
 
 ```
@@ -192,6 +218,10 @@ Create professional promotional videos using Remotion with AI voiceover and back
     │           ├── SKILL.md    # Skill documentation
     │           └── scripts/
     │               └── image.py
+    ├── frontend-design/
+    │   └── skills/
+    │       └── frontend-design/
+    │           └── SKILL.md    # Design thinking and aesthetics guide
     └── promo-video/
         ├── CLAUDE.md           # Plugin documentation
         └── skills/

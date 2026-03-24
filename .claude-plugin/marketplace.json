@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Claude Code plugins from BuildAtScale - commands, hooks, and skills for enhanced productivity",
-    "version": "1.5.1",
+    "version": "1.6.0",
     "homepage": "https://github.com/buildatscale-tv/claude-code-plugins"
   },
   "plugins": [
@@ -71,6 +71,14 @@
       "source": "./plugins/promo-video",
       "skills": [
         "./skills/promo-video"
+      ]
+    },
+    {
+      "name": "frontend-design",
+      "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use when user asks to build a page, create a component, design a UI, make a landing page, or any web interface request. Avoids generic AI aesthetics.",
+      "source": "./plugins/frontend-design",
+      "skills": [
+        "./skills/frontend-design"
       ]
     }
   ]

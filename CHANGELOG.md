@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.6.0 - 2026-03-24
+
+### Frontend Design
+
+- Added frontend-design plugin for creating distinctive, production-grade web interfaces
+- Guides bold aesthetic direction: typography, color, motion, spatial composition, and visual details
+- Anti-pattern rules to avoid generic AI aesthetics (no Inter/Roboto, no purple-on-white cliches)
+- Integrates with nano-banana for custom AI-generated imagery
+- Supports HTML/CSS/JS, React, and Vue projects
+
 ## 1.5.2 - 2026-03-16
 
 ### Nano Banana
