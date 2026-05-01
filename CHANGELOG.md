@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.5.3 - 2026-05-01
+
+### Nano Banana
+
+- Fixed output filename to use the extension matching the format the API returns (Nano Banana 2 and Pro return JPEG; previous behavior wrote JPEG bytes to a `.png` file)
+
 ## 1.5.2 - 2026-03-16
 
 ### Nano Banana
