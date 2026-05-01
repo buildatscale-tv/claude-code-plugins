@@ -11,12 +11,14 @@ Nano Banana is a Claude Code plugin/skill for generating images using Google's G
 ```bash
 uv run skills/generate/scripts/image.py \
   --prompt "Your image description" \
-  --output "/path/to/output.png"
+  --output "/path/to/output"
 ```
+
+The extension on `--output` is replaced with whatever format the model returns (Pro and Nano Banana 2 typically return JPEG, Flash typically returns PNG). The final path is printed on stdout.
 
 Options:
 - `--prompt` (required): Image description
-- `--output` (required): Output file path (PNG)
+- `--output` (required): Output file path. Extension is replaced with the format the model returns.
 - `--aspect` (optional): Named shortcut (`square`, `landscape`, `portrait`) or direct ratio (e.g. `4:3`, `16:9`, `21:9`). Default: square
 - `--reference` (optional, repeatable): Path to reference image for style guidance. Use multiple times for multiple references.
 - `--model` (optional): `flash` (fast, 1024px), `pro` (high-quality, up to 4K), or `2` (default, Nano Banana 2, fast + up to 4K)

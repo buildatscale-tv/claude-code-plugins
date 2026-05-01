@@ -15,16 +15,26 @@ Usage:
     uv run generate_image.py --prompt "Similar style image" --output "./new.png" --reference "./existing.png"
     uv run generate_image.py --prompt "Blend these styles" --output "./new.png" --reference "./a.png" --reference "./b.png"
     uv run generate_image.py --prompt "High quality art" --output "./art.png" --model pro --size 2K
-    uv run generate_image.py --prompt "Fast high-res" --output "./fast.png" --model 2 --size 2K --aspect 4:3
+    uv run generate_image.py --prompt "Fast high-res" --output "./fast" --model 2 --size 2K --aspect 4:3
+
+The output file's extension is set automatically from the format the model returns
+(e.g. .jpg or .png), so any extension you pass on --output will be replaced.
 """
 
 import argparse
+import mimetypes
 import os
 import sys
 
 from google import genai
 from google.genai import types
 from PIL import Image
+
+MIME_EXTENSIONS = {
+    "image/png": ".png",
+    "image/jpeg": ".jpg",
+    "image/webp": ".webp",
+}
 
 MODEL_IDS = {
     "flash": "gemini-2.5-flash-image",
@@ -156,9 +166,13 @@ def generate_image(
         if part.text is not None:
             print(f"Model response: {part.text}")
         elif part.inline_data is not None:
-            image = part.as_image()
-            image.save(output_path)
-            print(f"Image saved to: {output_path}")
+            mime_type = part.inline_data.mime_type or "image/png"
+            ext = MIME_EXTENSIONS.get(mime_type) or mimetypes.guess_extension(mime_type) or ".bin"
+            base, _ = os.path.splitext(output_path)
+            final_path = base + ext
+            with open(final_path, "wb") as f:
+                f.write(part.inline_data.data)
+            print(f"Image saved to: {final_path}")
             return
 
     print("Error: No image data in response", file=sys.stderr)
@@ -177,7 +191,7 @@ def main():
     parser.add_argument(
         "--output",
         required=True,
-        help="Output file path (PNG format)",
+        help="Output file path. The extension is set automatically from the format the model returns (e.g. .jpg or .png).",
     )
     parser.add_argument(
         "--aspect",

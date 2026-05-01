@@ -53,14 +53,16 @@ Use `scripts/image.py` with uv. The script is located in the skill directory at 
 ```bash
 uv run "${SKILL_DIR}/scripts/image.py" \
   --prompt "Your image description" \
-  --output "/path/to/output.png"
+  --output "/path/to/output"
 ```
 
 Where `${SKILL_DIR}` is the directory containing this SKILL.md file.
 
+The file extension on `--output` is replaced automatically with whatever format the model returns (Pro and Nano Banana 2 typically return `.jpg`, Flash typically returns `.png`, but the API decides). Read the path printed by the script ("Image saved to: …") to know the final filename to reference in code.
+
 Options:
 - `--prompt` (required): Detailed description of the image to generate
-- `--output` (required): Output file path (PNG format)
+- `--output` (required): Output file path. Extension is replaced with the format the model returns.
 - `--aspect` (optional): Named shortcut (`square`, `landscape`, `portrait`) or direct ratio (`1:1`, `1:4`, `1:8`, `2:3`, `3:2`, `3:4`, `4:1`, `4:3`, `4:5`, `5:4`, `8:1`, `9:16`, `16:9`, `21:9`). Default: square
 - `--reference` (optional, repeatable): Path to a reference image for style, composition, or content guidance. Can be specified multiple times for multiple references.
 - `--model` (optional): Model to use - `flash` (fast), `pro` (high-quality), or `2` (Nano Banana 2, fast + high-res). Default: 2
